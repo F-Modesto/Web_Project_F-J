@@ -1,3 +1,8 @@
-body{
+#mainPageColor{
 	background-color: Cornsilk;
+}
+
+.headerFont{
+	font-size: 50px;
+	text-align: center;
 }
