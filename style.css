@@ -1,5 +1,29 @@
-#mainPageColor{
+#standartPageColor{
 	background-color: Cornsilk;
+}
+
+#whiteLine{
+	background-color: white;
+}
+
+#greyLine{
+	background-color: Gainsboro;
+}
+
+.image-and-text{
+    clear:both;
+}
+.imageLeft{
+    float:left;
+}
+.textLeft{
+    float:left;
+}
+.imageRight{
+    float:right;
+}
+.textRight{
+    float:right;
 }
 
 .headerFont{
@@ -8,18 +32,20 @@
 	margin-bottom: 80px;
 }
 
+p {
+	font-size: 20px;
+}
+
 table {
+	margin-top: 50px;
+	margin-left: 100px;
     font-family: arial, sans-serif;
     border-collapse: collapse;
-    width: 50%;
+    width: 115%;
 }
 
-td, th {
-    border: 1px solid #dddddd;
+td, th{
+    border: 1px solid #696969;
     text-align: center;
     padding: 9px;
-}
-
-tr:nth-child(even) {
-    background-color: #dddddd;
 }
