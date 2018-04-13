@@ -1,35 +1,51 @@
+body {margin:0;}
+
+.navbar {
+  overflow: hidden;
+  background-color: LightSeaGreen;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.navbar a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.navbar a:hover {
+  background: #ddd;
+  color: black;
+}
+
+#currentPage {
+  background: white;
+  color: black;
+}
+
+.main {
+  padding: 16px;
+  margin-top: 80px;
+  height: 1500px; /* Used in this example to enable scrolling */
+}
+
 #standartPageColor{
-	background-color: Cornsilk;
+    background-color: cornsilk;
 }
 
-#whiteLine{
-	background-color: white;
+#headerFont{
+    font-size: 50px;
+    text-align: center;
+    margin-bottom: 80px;
 }
 
-#greyLine{
-	background-color: Gainsboro;
-}
-
-.image-and-text{
-    clear:both;
-}
-.imageLeft{
-    float:left;
-}
-.textLeft{
-    float:left;
-}
-.imageRight{
-    float:right;
-}
-.textRight{
-    float:right;
-}
-
-.headerFont{
-	font-size: 50px;
-	text-align: center;
-	margin-bottom: 80px;
+#marginTop{
+    margin-top: 58px;
 }
 
 p {
@@ -48,4 +64,82 @@ td, th{
     border: 1px solid #696969;
     text-align: center;
     padding: 9px;
+}
+
+
+
+
+
+
+
+.discusBox {
+  margin-top: 50px;
+  border: #333 solid 1px;
+  height: 10%;
+  width: 100%;
+  position: relative;
+  background-color: #fff;
+  z-index: -1;
+}
+
+.discusTitle {
+  line-height: 10px;
+  padding-left: 250px;
+  position: absolute;
+  top: 0;
+  left: 120px;
+  width: 600px;
+  vertical-align: middle;
+}
+
+.discusTitle h2 {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.discusBrief {
+  height: 90px;
+  width: 800px;
+  position: absolute;
+  top: 20px;
+  left: 365px;
+  overflow: hidden;
+}
+.discusBrief p { padding-left: 6px; }
+
+.discusMeta {
+  height: 10px;
+  width: 950px;
+  position: absolute;
+  top: 128px;
+  left: 365px;
+  font-size: 11px;
+  line-height: 20px;
+  vertical-align: middle;
+}
+
+.discusMetaPostedOn, .discusBy {
+  display: inline;
+  float: left;
+}
+
+.discusMetaPostedOn {
+  padding-left: 6px;
+  margin-right: 24px;
+}
+.discusMetaPostedOn p { margin-bottom: 0;}
+
+.discusBy { }
+
+.discusLink {
+  float: right;
+  background-color: #2fb7e0; 
+  width: 120px;
+  text-align: center;
+}
+
+.discusLink a{
+  color: #fff;
+  text-decoration: none;
+  display: block;
 }
