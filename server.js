@@ -5,6 +5,8 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(express.static('web'));
+
 var mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 mongoose.connect("mongodb+srv://Admin:Admin123@cluster0-anqkh.mongodb.net/test?retryWrites=true");
