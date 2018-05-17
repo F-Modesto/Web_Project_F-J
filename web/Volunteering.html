@@ -28,20 +28,12 @@
   			<h2 style="text-align: center">Volunteering</h2>
   			<h4 style="text-align: center"> Apply for volunteering near you</h4>
 
-  			<form>
-  				<p id="entry"> 2ww </p>
-  				Full Name:
-  				<br> 
-  				<input type="text" size="45" id="name"> 
-  				<br>
-				<br>
-				Email:
-				<br>
-				<input type="email" size="45" id="email">
-				<br>
-				<br>
-				<input type="submit" id="submit">
-  			</form>
+  			 <form method="post" action="/addname">
+            <label>Enter Your Name</label><br>
+            <input type="text" name="name" placeholder="enter name" required>
+            <input type="text" name="email" placeholder="enter email" required>
+            <input type="submit" value="Add Name">
+        </form>
 		</div> 
 	</body>
 </html>

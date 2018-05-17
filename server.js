@@ -1,139 +1,34 @@
-const express = require('express');
-const app = express();
+var express = require("express");
+var app = express();
+var port = 3000;
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb+srv://Admin:Admin123@cluster0-anqkh.mongodb.net/test?retryWrites=false";
+var mongoose = require("mongoose");
+mongoose.Promise = global.Promise;
+mongoose.connect("mongodb+srv://Admin:Admin123@cluster0-anqkh.mongodb.net/test?retryWrites=true");
+var nameSchema = new mongoose.Schema({
+    name: String,
+    email: String
+});
+var User = mongoose.model("User", nameSchema);
 
-//CONNECTION
-// MongoClient.connect(url, function(err, db) {
-//   if (err) throw err;
-//   console.log("Connection to DataBase successfuly established!");
-//   db.close();
-// });
+app.get("/", (req, res) => {
+    res.sendFile(__dirname + "/web/Volunteering.html");
+});
 
-// //CREATE COLLECTION
-// MongoClient.connect(url, function(err, db) {
-//   if (err) throw err;
-//   var dbo = db.db("H2Oil");
-//   dbo.createCollection("customers", function(err, res) {
-//     if (err) throw err;
-//     console.log("Collection created!");
-//     db.close();
-//   });
-// });
+app.post("/addname", (req, res) => {
+    var myData = new User(req.body);
+    myData.save()
+        .then(item => {
+            res.send("Name saved to database");
+        })
+        .catch(err => {
+            res.status(400).send("Unable to save to database");
+        });
+});
 
-// //INSERT
-// MongoClient.connect(url, function(err, db) {
-//   if (err) throw err;
-//   var dbo = db.db("H2Oil");
-//   var myobj = { name: "Company Inc", address: "Highway 37" };
-//   dbo.collection("customers").insertOne(myobj, function(err, res) {
-//     if (err) throw err;
-//     console.log("1 document inserted");
-//     db.close();
-//   });
-// });
-
-// //FIND
-// MongoClient.connect(url, function(err, db) {
-//   if (err) throw err;
-//   var dbo = db.db("H2Oil");
-//   dbo.collection("customers").findOne({}, function(err, result) {
-//     if (err) throw err;
-//     console.log(result.name);
-//     db.close();
-//   });
-// });
-
-// //QUERY
-// MongoClient.connect(url, function(err, db) {
-//   if (err) throw err;
-//   var dbo = db.db("H2Oil");
-//   var query = { address: "Highway 37" };
-//   dbo.collection("customers").find(query).toArray(function(err, result) {
-//     if (err) throw err;
-//     console.log(result);
-//     db.close();
-//   });
-// });
-
-// //SORT
-// MongoClient.connect(url, function(err, db) {
-//   if (err) throw err;
-//   var dbo = db.db("H2Oil");
-//   var mysort = { name: 1 };
-//   dbo.collection("customers").find().sort(mysort).toArray(function(err, result) {
-//     if (err) throw err;
-//     console.log(result);
-//     db.close();
-//   });
-// });
-
-// //DELETE
-// // MongoClient.connect(url, function(err, db) {
-// //   if (err) throw err;
-// //   var dbo = db.db("H2Oil");
-// //   var myquery = { address: 'Mountain 21' };
-// //   dbo.collection("customers").deleteOne(myquery, function(err, obj) {
-// //     if (err) throw err;
-// //     console.log("1 document deleted");
-// //     db.close();
-// //   });
-// // });
-
-// //DROP COLLECTION
-// MongoClient.connect(url, function(err, db) {
-//   if (err) throw err;
-//   var dbo = db.db("H2Oil");
-//   dbo.collection("customers").drop(function(err, delOK) {
-//     if (err) throw err;
-//     if (delOK) console.log("Collection deleted");
-//     db.close();
-//   });
-// });
-
-// //UPDATE
-// MongoClient.connect(url, function(err, db) {
-//   if (err) throw err;
-//   var dbo = db.db("H2Oil");
-//   var myquery = { address: "Valley 345" };
-//   var newvalues = { $set: {name: "Mickey", address: "Canyon 123" } };
-//   dbo.collection("customers").updateOne(myquery, newvalues, function(err, res) {
-//     if (err) throw err;
-//     console.log("1 document updated");
-//     db.close();
-//   });
-// }); 
-
-// //LIMIT
-// MongoClient.connect(url, function(err, db) {
-//   if (err) throw err;
-//   var dbo = db.db("H2Oil");
-//   dbo.collection("customers").find().limit(5).toArray(function(err, result) {
-//     if (err) throw err;
-//     console.log(result);
-//     db.close();
-//   });
-// });
-
-// //JOIN
-// MongoClient.connect(url, function(err, db) {
-//   if (err) throw err;
-//   var dbo = db.db("H2Oil");
-//   dbo.collection('orders').aggregate([
-//     { $lookup:
-//        {
-//          from: 'products',
-//          localField: 'product_id',
-//          foreignField: '_id',
-//          as: 'orderdetails'
-//        }
-//      }
-//     ]).toArray(function(err, res) {
-//     if (err) throw err;
-//     console.log(JSON.stringify(res));
-//     db.close();
-//   });
-// });
-
-app.listen(3000, () => console.log('Connection available on port 3000'));
+app.listen(port, () => {
+    console.log("Server listening on port " + port);
+});
