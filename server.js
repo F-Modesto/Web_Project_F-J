@@ -9,22 +9,46 @@ app.use(express.static('web'));
 
 var mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
-mongoose.connect("mongodb+srv://Admin:Admin123@cluster0-anqkh.mongodb.net/test?retryWrites=true");
-var nameSchema = new mongoose.Schema({
+mongoose.connect("mongodb+srv://Admin:Admin123@cluster0-anqkh.mongodb.net/H2Oil?retryWrites=true");
+
+var userVolunteering = new mongoose.Schema({
     name: String,
-    email: String
+    email: String,
+}, {
+    versionKey: false
 });
-var User = mongoose.model("User", nameSchema);
+
+var userAccount = new mongoose.Schema({
+    username: String,
+    email: String,
+    password: String
+}, {
+    versionKey: false
+});
+
+var volunteeringEntry = mongoose.model("userVolunteering", userVolunteering);
+var accountEntry = mongoose.model("userAccount", userAccount);
 
 app.get("/", (req, res) => {
     res.sendFile(__dirname + "/web/Volunteering.html");
 });
 
-app.post("/addname", (req, res) => {
-    var myData = new User(req.body);
+app.post("/addEntry", (req, res) => {
+    var myData = new volunteeringEntry(req.body);
     myData.save()
         .then(item => {
-            res.send("Name saved to database");
+            res.send("Volunteering entry added");
+        })
+        .catch(err => {
+            res.status(400).send("Unable to save to database");
+        });
+});
+
+app.post("/register", (req, res) => {
+    var myData = new accountEntry(req.body);
+    myData.save()
+        .then(item => {
+            res.send("Account Created");
         })
         .catch(err => {
             res.status(400).send("Unable to save to database");
@@ -34,3 +58,11 @@ app.post("/addname", (req, res) => {
 app.listen(port, () => {
     console.log("Server listening on port " + port);
 });
+
+function showdata() {
+    volunteeringEntry.find({}, function(err, result) {
+    if (err) throw err;
+    console.log(result);
+  });
+}
+showdata();
