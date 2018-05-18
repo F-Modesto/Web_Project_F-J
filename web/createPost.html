@@ -9,7 +9,6 @@
 		</title>
 		<meta charset="UTF-8">
 		<link href="style.css" rel="stylesheet" type="text/css">
-		Jquery
 
 	</head>
 	
@@ -27,13 +26,19 @@
 		</div>
 
 		<div class="main">
-  			<p>Posts</p>
-  			<form action="/createPost.html">
-				<input type="submit" name="createPost" value="Create Post">
+  			<p>Create Post</p>
+  			<form id='post' method="post" action="/createPost">
+  				Title
+  				<br>
+  				<input type="text" name="Title" size="30" required="">
+  				<br>
+  				Content
+  				<br>
+  				<textarea name="Content" required rows="10" cols="50"></textarea>
+  				<br>
+				<input type="submit" name="submitPost" value="Submit Post">
 			</form> 
 		</div>
-
-		<script type="text/javascript" src="script.js"></script>
 	</body>
 
 </html>
