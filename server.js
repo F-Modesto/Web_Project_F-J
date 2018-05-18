@@ -37,7 +37,7 @@ app.post("/addEntry", (req, res) => {
     var myData = new volunteeringEntry(req.body);
     myData.save()
         .then(item => {
-            res.send("Volunteering entry added");
+            console.log("Volunteering Entry saved to database");
         })
         .catch(err => {
             res.status(400).send("Unable to save to database");
@@ -48,10 +48,10 @@ app.post("/register", (req, res) => {
     var myData = new accountEntry(req.body);
     myData.save()
         .then(item => {
-            res.send("Account Created");
+            console.log("User saved to database");
         })
         .catch(err => {
-            res.status(400).send("Unable to save to database");
+            console.log(400).send("Unable to save to database");
         });
 });
 
