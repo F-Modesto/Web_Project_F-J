@@ -1,34 +1,38 @@
-function getData() {
+// function getData() {
 
-	$.getJSON('/all', show);
+// 	$.getJSON('/all', show);
 
-	function show(data) {
+// 	function show(data) {
 
-	var key = Object.keys(data);
-	console.log(key);
-	var name = key[0];
-	var email = data[name];
-	console.log(name);
-	console.log(email);
-	document.getElementById('entry').innerHTML = name + " " + email;
-	}
-}
+// 	var key = Object.keys(data);
+// 	console.log(key);
+// 	var name = key[0];
+// 	var email = data[name];
+// 	console.log(name);
+// 	console.log(email);
+// 	document.getElementById('entry').innerHTML = name + " " + email;
+// 	}
+// }
 
-getData();
+// getData();
 
-var but = document.getElementById('submit');
+// var but = document.getElementById('submit');
 
-but.onclick = function send() {
+// but.onclick = function log() {
+// 	console.log("a");
+// }
 
-	var entryN = document.getElementById('name').value;
-	var entryE = document.getElementById('email').value;
+// but.onclick = function send() {
 
-	console.log(entryN);
-	console.log(entryE);
+// 	var entryN = document.getElementById('name').value;
+// 	var entryE = document.getElementById('email').value;
 
-	$.getJSON('add/' + entryN + '/' + entryE, end);
+// 	console.log(entryN);
+// 	console.log(entryE);
 
-	function end(data) {
-	  console.log(data);
-	}
-}
+// 	$.getJSON('add/' + entryN + '/' + entryE, end);
+
+// 	function end(data) {
+// 	  console.log(data);
+// 	}
+// }

@@ -78,7 +78,7 @@ app.listen(port, () => {
     console.log("Server listening on port " + port);
 });
 
-app.get('/Posts',(req,res)=>{
+app.get('/Posts', (req,res) => {
 
     postEntry.find({}, function(err, result) {
     if (err) throw err;
