@@ -2,6 +2,7 @@ var express = require("express");
 var app = express();
 var port = 3000;
 var bodyParser = require('body-parser');
+var multer = require('multer');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -28,7 +29,8 @@ var userAccount = new mongoose.Schema({
 
 var post = new mongoose.Schema({
     Title: String,
-    Content: String
+    Content: String //,
+    // Image: { data: Buffer, contentType: String }
 }, {
     versionKey: false
 });
@@ -39,6 +41,15 @@ var postEntry = mongoose.model("posts", post);
 
 app.get("/", (req, res) => {
     res.sendFile(__dirname + "/web/Volunteering.html");
+});
+
+app.get('/Posts', (req,res) => {
+
+    postEntry.find({}, function(err, result) {
+    if (err) throw err;
+   res.send(result);
+ });
+
 });
 
 app.post("/addEntry", (req, res) => {
@@ -78,11 +89,16 @@ app.listen(port, () => {
     console.log("Server listening on port " + port);
 });
 
-app.get('/Posts', (req,res) => {
+// app.use(multer({ dest: './uploads/',
+//     rename: function (fieldname, filename) {
+//         return filename;
+//     },
+// }));
 
-    postEntry.find({}, function(err, result) {
-    if (err) throw err;
-   res.send(result);
- });
+// app.post('/api/picture_upload', function(req,res){
+//  var newPic = new pic();
+//  newPic.image.data = fs.readFileSync(req.files.userPhoto.path)
+//  newPic.image.contentType = 'image/png';
+//  newPic.save();
+// });
 
-});
