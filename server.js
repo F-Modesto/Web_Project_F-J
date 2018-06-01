@@ -1,16 +1,43 @@
 var express = require("express");
-var app = express();
-var port = 3000;
 var bodyParser = require('body-parser');
-var multer = require('multer');
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(express.static('web'));
-
+var Realm = require('realm');
 var mongoose = require("mongoose");
+var multer = require('multer');
+var session = require('express-session');
+var passport = require('passport');
+
+var port = 3000;
+var app = express();
+
+app.use(bodyParser.json());
+app.use(express.static('web'));
+app.use(session({secret: 'qwdwegytikjg', resave: false, saveUninitialized: false, /*cookie: { secure: true }*/}));
+app.use(passport.initialize());
+app.use(passport.session());
+
 mongoose.Promise = global.Promise;
 mongoose.connect("mongodb+srv://Admin:Admin123@cluster0-anqkh.mongodb.net/H2Oil?retryWrites=true");
+
+app.listen(port, () => {
+    console.log("Server listening on port " + port);
+});
+
+let PostSchema = {
+    name: 'Post',
+    properties:  {
+        timestamp: 'date',
+        title: 'string',
+        content: 'string'
+    }
+};
+
+var postRealm = new Realm({
+    path: 'post.realm',
+    schema: [PostSchema]
+});
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.set('view engine', 'ejs');
 
 var userVolunteering = new mongoose.Schema({
     name: String,
@@ -29,8 +56,7 @@ var userAccount = new mongoose.Schema({
 
 var post = new mongoose.Schema({
     Title: String,
-    Content: String //,
-    // Image: { data: Buffer, contentType: String }
+    Content: String
 }, {
     versionKey: false
 });
@@ -39,15 +65,11 @@ var volunteeringEntry = mongoose.model("userVolunteering", userVolunteering);
 var accountEntry = mongoose.model("userAccount", userAccount);
 var postEntry = mongoose.model("posts", post);
 
-app.get("/", (req, res) => {
-    res.sendFile(__dirname + "/web/Volunteering.html");
-});
-
 app.get('/Posts', (req,res) => {
 
     postEntry.find({}, function(err, result) {
     if (err) throw err;
-   res.send(result);
+    res.send(result);
  });
 
 });
@@ -57,6 +79,7 @@ app.post("/addEntry", (req, res) => {
     data.save()
         .then(item => {
             console.log("Volunteering Entry saved to database");
+            res.redirect('/VolunteeringSuccess.html');
         })
         .catch(err => {
             res.status(400).send("Unable to save to database");
@@ -68,37 +91,37 @@ app.post("/register", (req, res) => {
     data.save()
         .then(item => {
             console.log("User saved to database");
+            res.redirect('/RegisterSuccess.html');
         })
         .catch(err => {
             console.log(400).send("Unable to save to database");
         });
 });
 
-app.post("/createPost", (req, res) => {
-    var data = new postEntry(req.body);
-    data.save()
-        .then(item => {
-            console.log("Post saved to database");
-        })
-        .catch(err => {
-            console.log(400).send("Unable to save to database");
-        });
-});
-
-app.listen(port, () => {
-    console.log("Server listening on port " + port);
-});
-
-// app.use(multer({ dest: './uploads/',
-//     rename: function (fieldname, filename) {
-//         return filename;
-//     },
-// }));
-
-// app.post('/api/picture_upload', function(req,res){
-//  var newPic = new pic();
-//  newPic.image.data = fs.readFileSync(req.files.userPhoto.path)
-//  newPic.image.contentType = 'image/png';
-//  newPic.save();
+// app.post("/createPost", (req, res) => {
+//     var data = new postEntry(req.body);
+//     data.save()
+//         .then(item => {
+//             console.log("Post saved to database");
+//             res.redirect("/Posts.html");
+//         })
+//         .catch(err => {
+//             console.log(400).send("Unable to save to database");
+//         });
 // });
+
+app.post('/createPost', function(req, res) {
+  let title = req.body['title'],
+    content = req.body['content'],
+    timestamp = new Date();
+  postRealm.write(() => {
+    postRealm.create('Post', {title: title, content: content, timestamp: timestamp});
+  });
+  res.redirect('/Posts.html');
+});
+
+app.get('/Posts.html', function(req, res) {
+  let posts = postRealm.objects('Post').sorted('timestamp', true);
+  res.render('index.ejs', {posts: posts});
+});
 

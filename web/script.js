@@ -40,3 +40,8 @@ var loadFile = function(event) {
 	var output = document.getElementById('output');
     output.src = URL.createObjectURL(event.target.files[0]);
 };
+
+function topFunction() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+};
