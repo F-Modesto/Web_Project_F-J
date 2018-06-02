@@ -10,10 +10,13 @@ var port = 3000;
 var app = express();
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.set('view engine', 'ejs');
 app.use(express.static('web'));
 app.use(session({secret: 'qwdwegytikjg', resave: false, saveUninitialized: false, /*cookie: { secure: true }*/}));
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 mongoose.Promise = global.Promise;
 mongoose.connect("mongodb+srv://Admin:Admin123@cluster0-anqkh.mongodb.net/H2Oil?retryWrites=true");
@@ -35,9 +38,6 @@ var postRealm = new Realm({
     path: 'post.realm',
     schema: [PostSchema]
 });
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.set('view engine', 'ejs');
 
 var userVolunteering = new mongoose.Schema({
     name: String,
