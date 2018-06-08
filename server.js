@@ -64,7 +64,6 @@ app.post("/addEntry", (req, res) => {
     data.save()
         .then(item => {
             console.log("Volunteering Entry saved to database");
-            res.redirect('/VolunteeringSuccess.html');
         })
         .catch(err => {
             res.status(400).send("Unable to save to database");
@@ -76,7 +75,7 @@ app.post("/register", (req, res) => {
     data.save()
         .then(item => {
             console.log("User saved to database");
-            res.redirect('/RegisterSuccess.html');
+            res.redirect('/Home.html');
         })
         .catch(err => {
             console.log(400).send("Unable to save to database");
