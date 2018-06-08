@@ -88,7 +88,7 @@ app.post("/createPost", (req, res) => {
     data.save()
         .then(item => {
             console.log("Post saved to database");
-            res.redirect("/Posts.html");
+            res.redirect("/Forum.html");
         })
         .catch(err => {
             console.log(400).send("Unable to save to database");
