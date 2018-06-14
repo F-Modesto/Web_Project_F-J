@@ -10,7 +10,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 
-  <title>Login</title>
+  <title>Fixed top navbar example for Bootstrap</title>
 
 </head>
 
@@ -26,8 +26,8 @@
         <li class="nav-item">
           <a class="nav-link" href="News.html">News</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="Forum.html">Forum</a>
+        <li class="nav-item active">
+          <a class="nav-link" href="Forum.html">Forum<span class="sr-only">(current)</span></a>
         </li>
       </ul>
 
@@ -35,8 +35,8 @@
         <li class="nav-item" class="navbar-right">
           <a class="nav-link" href="Register.html">Register</a>
         </li>
-        <li class="nav-item active" class="navbar-right">
-          <a class="nav-link" href="Login.html">Login<span class="sr-only">(current)</span></a>
+        <li class="nav-item" class="navbar-right">
+          <a class="nav-link" href="Login.html">Login</a>
         </li>
         <li class="nav-item" class="navbar-right">
           <a class="nav-link" href="/Profile">Profile</a>
@@ -54,31 +54,15 @@
 
   <main role="main" class="container">
     <br>
-    <div>
-    <p> <h1> Login </h1> </p>
-    </div>
     <br>
+    <div>
+      <p> <h1> Profile </h1> </p>
+    </div>
+  </main>
 
-    <div class="container">
-      <form method="POST" action="/Login">
-       <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" name="email" class="form-control" placeholder="Email">
-      </div>
-
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" name="password" class="form-control" placeholder="Password">
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-
-    </form>
-  </div>
-</main>
-
-      <footer class="container">
-        <button type="button" class="btn btn-danger; float-right" onclick="topFunction()">Back to top</button>
-    </footer>
+  <footer class="container">
+    <button type="button" class="btn btn-danger; float-right" onclick="topFunction()">Back to top</button>
+  </footer>
 
 </body>
-</html>
+</html>   
