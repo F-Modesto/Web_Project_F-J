@@ -1,0 +1,14 @@
+Eu faço estes três no fim de semana:
+
+Copiar e Colar o código que tenha a haver com a base de dados
+Queries (descriçao de cada: pesquisa, delete, insert, etc; explicar como funcionam)
+Base de dados esquema, etc x
+
+
+
+Faz um Word com instruçoes para base de dados. O que o stor tem de fazer com esta conta para ver
+a nossa base. Login com senha e assim e que sítios tem que abrir para ver as nossas coisas no Atlas
+
+admh2oil56@gmail.com
+admin.56
+
