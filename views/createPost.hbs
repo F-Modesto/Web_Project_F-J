@@ -18,9 +18,9 @@
     
     {{>header}}
 
+    {{title}}
+
     <main role="main" class="container">
-      <br>
-      <br>
       <br>
       <div class="main">
         <p> <h1> Create Post </h1> </p>
@@ -34,20 +34,10 @@
           <textarea name="Content" required rows="10" cols="50"></textarea>
           <br>
           <br>
-          <input type="file" name="pic" accept="image/*" onchange="loadFile(event)">
-          <br>
-          <br>
-          <img id="output" width="25%" height="25%">
-          <br>
-          <br>
         <input type="submit" name="submitPost" value="Submit Post">
       </form> 
     </div>
     </main>
-
-    <footer class="container">
-        <button type="button" class="btn btn-danger; float-right" onclick="topFunction()">Back to top</button>
-    </footer>
 
   </body>
 </html>

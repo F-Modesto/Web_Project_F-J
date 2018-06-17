@@ -75,7 +75,7 @@ var news = new mongoose.Schema({
 	Link: String,
 	Date: {
 		type: Date,
-		default: Date.now()
+		default: Date.now
 	}}, {
 	versionKey: false
 });
@@ -108,10 +108,10 @@ app.get('/Forum', function(req, res) {
 	});
 });
 
-app.get('/News', function(req, res) {
+app.get('/News', authenticationMiddleware(), function(req, res) {
 	newsEntry.find({}).sort('-Date').exec(function(err, content) {
 		if (err) throw err;
-		res.render('News', { title: "News", active: {Forum: false, News: true, Login: false, Register: false, Profile: false}, contents: content});
+		res.render('News', { title: "News", active: {Forum: false, News: true, Login: false, Register: false, Profile: false}, contents: content, admin: req.user.admin});
 	});
 });
 
@@ -181,7 +181,7 @@ passport.use(new LocalStrategy(
 ));
 
 app.post("/register", (req, res) => {
-	var user = new User(req.body);
+	var user = new User({username: req.body.username, email: req.body.email, password: req.body.password, admin: 0});
 	user.save()
 	.then(item => {
 		User.findOne().sort({_id: 1}).exec(function(err, user) {

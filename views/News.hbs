@@ -16,20 +16,22 @@
 
 <body>
 
-  <header>
-
-  </header>
-
   {{>header}}
 
+  <main role="main" class="container">
+    <div>
+      <p> <h1> {{title}} </h1> </p>
+    </div>
+
   {{#if isAuthenticated}}
-  <div>
-    <br>
-    <a href="/createNews">
-      <input type="button" value="Create News Article">
-    </a>
-  </div>
+    
+    <div>
+      <a href="/createNews">
+        <input type="button" value="Create News Article">
+      </a>
+    </div>
   {{/if}}
+  </main>
 
   {{# each contents }}
   <br>
