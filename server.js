@@ -245,7 +245,7 @@ app.post("/createPost", (req, res) => {
 });
 
 app.post("/createNews", (req, res) => {
-	var data = new newsEntry({Title: req.body.Title, Content: req.body.Content, Link: req.body.Link});
+	var data = new newsEntry({Title: req.body.Title, Content: req.body.Content, Link:"//" + req.body.Link});
 	data.save()
 	.then(item => {
 		console.log("News saved to database");
