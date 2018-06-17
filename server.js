@@ -149,7 +149,7 @@ app.get('/Forum', function(req, res) {
 	});
 });
 
-app.get('/News', authenticationMiddleware(), function(req, res) {
+app.get('/News', function(req, res) {
 	newsEntry.find({}).sort('-Date').exec(function(err, content) {
 		if (err) throw err;
 		res.render('News', { title: "News", active: {Forum: false, News: true, Login: false, Register: false, Profile: false}, contents: content, user: req.user});
