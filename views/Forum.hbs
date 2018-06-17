@@ -25,9 +25,11 @@
       <p> <h1> Posts </h1> </p>
     </div>
 
+    {{#if isAuthenticated}}
     <a href="/createPost">
         <input type="button" value="Create Post">
-      </a>
+    </a>
+    {{/if}}
   </main>
 
   <footer class="container">

@@ -10,72 +10,45 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 
-<title> {{ title }} </title>
+  <title> {{ title }} </title>
 
 </head>
 
 <body>
 
   <header>
-    
+
   </header>
 
   {{>header}}
 
+  {{#if isAuthenticated}}
   <div>
     <br>
-     <a href="createPost.html">
-        <input type="button" value="Create Post">
-      </a>
+    <a style="float: right" href="/createNews">
+      <input type="button" value="Create News Article">
+    </a>
   </div>
+  {{/if}}
 
+  {{# each contents }}
+
+  <br>
+  <br>
   <main role="main">
-
-      <div class="container marketing">
-
-        <div class="row featurette">
-          <div class="col-md-7 order-md-2">
-            <h2 class="featurette-heading">Post 1 <span class="text-muted"> </span></h2>
-            <p class="lead">Content</p>
-          </div>
-          <div class="col-md-5">
-            <img class="img-fluid" class="featurette-image img-fluid mx-auto" src="pitrolio.png" alt="Generic placeholder image">
-          </div>
+    <div class="container marketing">
+      <div class="row featurette">
+        <div class="col-md-7 order-md-2">
+          <h2 class="featurette-heading"> {{this.Title}} <span class="text-muted"> </span></h2>
+          <p class="lead"> {{ this.Content }}</p>
         </div>
-
-        <hr class="featurette-divider">
-
-        <div class="row featurette">
-          <div class="col-md-7 order-md-2">
-            <h2 class="featurette-heading">Post 2<span class="text-muted"> </span></h2>
-            <p class="lead">Content</p>
-          </div>
-          <div class="col-md-5">
-            <img class="img-fluid" class="featurette-image img-fluid mx-auto" src="pitrolio.png" alt="Generic placeholder image">
-          </div>
+        <div class="col-md-5">
+          <img class="img-fluid" class="featurette-image img-fluid mx-auto" src="pitrolio.png" alt="Generic placeholder image">
         </div>
-
-        <hr class="featurette-divider">
-
-        <div class="row featurette">
-          <div class="col-md-7 order-md-2">
-            <h2 class="featurette-heading">Post 3<span class="text-muted"> </span></h2>
-            <p class="lead">Content</p>
-          </div>
-          <div class="col-md-5">
-            <img class="img-fluid" class="featurette-image img-fluid mx-auto" src="pitrolio.png" alt="Generic placeholder image">
-          </div>
-
-          <hr class="featurette-divider">
-        </div>
-
-        <br>
-        <br>
-        <br>
-
-        <footer class="container">
-          <button type="button" class="btn btn-danger; float-right" onclick="topFunction()">Back to top</button>
-        </footer>
-      </main>
-    </body>
-    </html>
+      </div>
+      <hr class="featurette-divider">
+    </div>
+  {{/each}}
+  </main>
+</body>
+</html>

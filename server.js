@@ -66,8 +66,24 @@ var post = new mongoose.Schema({
 	versionKey: false
 });
 
+var news = new mongoose.Schema({
+	Title: String,
+	Content: String
+}, {
+	versionKey: false
+});
+
+var profile = new mongoose.Schema({
+	description: String,
+	profileId: String
+}, {
+	versionKey: false
+});
+
 var volunteeringEntry = mongoose.model("userVolunteering", userVolunteering);
 var postEntry = mongoose.model("posts", post);
+var newsEntry = mongoose.model("news", news);
+var profileEntry = mongoose.model("profiles", profile);
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 //---------------------------------ROUTES------------------------------------
@@ -75,27 +91,38 @@ var postEntry = mongoose.model("posts", post);
 //---------------------------------------------------------------------------
 
 app.get('/', function(req, res) {
-	res.render('index', { title: "Home", active: {Forum: false, News: false, Login: false, Register: false}});
+	res.render('index', { title: "Home", active: {Forum: false, News: false, Login: false, Register: false, Profile: false}});
 });
 
 app.get('/Forum', function(req, res) {
-	res.render('Forum', { title: "Forum", active: {Forum: true, News: false, Login: false, Register: false}});
+	res.render('Forum', { title: "Forum", active: {Forum: true, News: false, Login: false, Register: false, Profile: false}});
 });
 
 app.get('/News', function(req, res) {
-	res.render('News', { title: "News", active: {Forum: false, News: true, Login: false, Register: false}});
+	newsEntry.find(function(err, content) {
+		if (err) throw err;
+		res.render('News', { title: "News", active: {Forum: false, News: true, Login: false, Register: false, Profile: false} , contents: content});
+	});
 });
 
 app.get('/createPost', function(req, res) {
-	res.render('createPost', { title: "Create Post", active: {Forum: true, News: false, Login: false, Register: false}});
+	res.render('createPost', { title: "Create Post", active: {Forum: true, News: false, Login: false, Register: false, Profile: false}});
+});
+
+app.get('/createNews', function(req, res) {
+	res.render('createNews', { title: "Create News Article", active: {Forum: false, News: true, Login: false, Register: false, Profile: false}});
 });
 
 app.get('/Login', function(req, res) {
-	res.render('Login', { title: "Login", active: {Forum: false, News: false, Login: true, Register: false}});
+	res.render('Login', { title: "Login", active: {Forum: false, News: false, Login: true, Register: false, Profile: false}});
 });
 
 app.get('/Register', function(req, res) {
-	res.render('Register', { title: "Register", active: {Forum: false, News: false, Login: false, Register: true}});
+	res.render('Register', { title: "Register", active: {Forum: false, News: false, Login: false, Register: true, Profile: false}});
+});
+
+app.get('/ProfileSetup', function(req, res) {
+	res.render('ProfileSetup', { title: "Setup User Profile", active: {Forum: false, News: false, Login: false, Register: true, Profile: false}});
 });
 
 app.get('/Logout', function(req, res, next) {
@@ -113,13 +140,12 @@ app.get('/Logout', function(req, res, next) {
 //---------------------------------------------------------------------------
 
 app.get('/Profile', authenticationMiddleware(), function(req, res) {
-	active: { Profile: true }
-	res.render('Profile', { title: "Profile"});
+	res.render('Profile', { title: "Profile", active: {Forum: false, News: false, Login: false, Register: false, Profile: true}, profileDescription: req.user._id});
 });
 
 app.post("/Login", passport.authenticate(
 	'local', {
-		successRedirect: '/Profile',
+		successRedirect: '/',
 		failureRedirect: '/Login'
 }));
 
@@ -154,7 +180,7 @@ app.post("/register", (req, res) => {
 			const user_id = user._id;
 
 			req.login(user_id, function(err) {
-				res.redirect('/');
+				res.redirect('/Profile');
 			});
 		});
 
@@ -205,5 +231,39 @@ app.post("/createPost", (req, res) => {
 	})
 	.catch(err => {
 		console.log(400).send("Unable to save to database");
+	});
+});
+
+app.post("/createNews", (req, res) => {
+	var data = new newsEntry(req.body);
+	data.save()
+	.then(item => {
+		console.log("News saved to database");
+		res.redirect("/News");
+	})
+	.catch(err => {
+		console.log(400).send("Unable to save to database");
+	});
+});
+
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+//--------------------------------PROFILE------------------------------------
+//---------------------------------------------------------------------------
+//--------------------------------------------------------------------------- 
+
+app.post("/ProfileSetup", (req, res) => {
+	User.findOne().sort({_id: 1}).exec(function(err, user) {
+		if(err) throw err;
+
+		const userId_ = user._id;
+		var data = new profileEntry({description: req.body.description, profileId: userId_});
+		data.save()
+		.then(item => {
+		res.redirect("/Profile");
+		})
+		.catch(err => {
+			res.status(400).send("Unable to save to database");
+		});
 	});
 });

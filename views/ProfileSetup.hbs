@@ -22,11 +22,17 @@
     <br>
     <br>
     <div>
-      <p> <h1> Profile </h1> </p>
-      <p> a {{profileDescription}} </p>
-      <a href="/ProfileSetup">
-        <input type="button" value="Setup your Profile">
-      </a>
+      <div class="main">
+        <p> <h1> Setup your Profile </h1> </p>
+        <form id='profile' method="POST" action="/ProfileSetup">
+          <br>
+          Description
+          <br>
+          <textarea name="description" required rows="10" cols="50"></textarea>
+          <br>
+        <input type="submit" name="submitProfileSetup" value="Submit Profile">
+      </form> 
+    </div>
     </div>
   </main>
 
@@ -35,4 +41,4 @@
   </footer>
 
 </body>
-</html>   
+</html> 

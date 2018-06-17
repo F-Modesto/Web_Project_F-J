@@ -6,27 +6,29 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
+        <li class="nav-item {{#if active.News}} active {{/if}}">
           <a class="nav-link" href="/News">News</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item {{#if active.Forum}} active {{/if}}">
           <a class="nav-link" href="/Forum">Forum</a>
         </li>
       </ul>
-
       <ul class="nav navbar-nav navbar-right">
-        <li class="nav-item" class="navbar-right">
-          <a class="nav-link" href="/Register">Register</a>
-        </li>
-        <li class="nav-item" class="navbar-right">
-          <a class="nav-link" href="/Login">Login</a>
-        </li>
-        <li class="nav-item" class="navbar-right">
+        {{#if isAuthenticated}}
+        <li class="nav-item {{#if active.Profile}} active {{/if}}" class="navbar-right">
           <a class="nav-link" href="/Profile">Profile</a>
         </li>
         <li class="nav-item" class="navbar-right">
           <a class="nav-link" href="/Logout">Logout</a>
+        {{else}}
+        <li class="nav-item {{#if active.Register}} active {{/if}}" class="navbar-right">
+          <a class="nav-link" href="/Register">Register</a>
         </li>
+        <li class="nav-item {{#if active.Login}} active {{/if}}" class="navbar-right">
+          <a class="nav-link" href="/Login">Login</a>
+        </li>
+        </li>
+        {{/if}}
       </ul>
       <form class="form-inline mt-2 mt-md-0">
         <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
