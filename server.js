@@ -21,7 +21,39 @@ app.engine("hbs", hbs({
 	extname: '.hbs',
 	defaultLayout: 'layout',
 	partialDir: __dirname + '/views/partials', 
-	layoutDir: __dirname + '/views/layouts'
+	layoutDir: __dirname + '/views/layouts',
+	helpers: {
+		compare: function(lvalue, rvalue, options) {
+
+			    if (arguments.length < 3)
+			        throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
+
+			    var operator = options.hash.operator || "==";
+
+			    var operators = {
+			        '==':       function(l,r) { return l == r; },
+			        '===':      function(l,r) { return l === r; },
+			        '!=':       function(l,r) { return l != r; },
+			        '<':        function(l,r) { return l < r; },
+			        '>':        function(l,r) { return l > r; },
+			        '<=':       function(l,r) { return l <= r; },
+			        '>=':       function(l,r) { return l >= r; },
+			        'typeof':   function(l,r) { return typeof l == r; }
+			    }
+
+			    if (!operators[operator])
+			        throw new Error("Handlerbars Helper 'compare' doesn't know the operator "+operator);
+
+			    var result = operators[operator](lvalue,rvalue);
+
+			    if( result ) {
+			        return options.fn(this);
+			    } else {
+			        return options.inverse(this);
+			    }
+
+			}
+		}
 }));
 app.set('view engine', 'hbs');
 
@@ -40,6 +72,15 @@ app.use(passport.session());
 app.use(function(req, res, next) {
 	res.locals.isAuthenticated = req.isAuthenticated();
 	next();
+});
+
+var storage = multer.diskStorage({
+    destination: function(req, file, callback) {
+        callback(null, './uploadimages')
+    },
+    filename: function(req, file, callback) {
+        callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+    }
 });
 
 app.listen(port, () => {
@@ -111,7 +152,7 @@ app.get('/Forum', function(req, res) {
 app.get('/News', authenticationMiddleware(), function(req, res) {
 	newsEntry.find({}).sort('-Date').exec(function(err, content) {
 		if (err) throw err;
-		res.render('News', { title: "News", active: {Forum: false, News: true, Login: false, Register: false, Profile: false}, contents: content, admin: req.user.admin});
+		res.render('News', { title: "News", active: {Forum: false, News: true, Login: false, Register: false, Profile: false}, contents: content, user: req.user});
 	});
 });
 
@@ -149,8 +190,10 @@ app.get('/Logout', function(req, res, next) {
 //---------------------------------------------------------------------------
 //---------------------------------------------------------------------------
 
-app.get('/Profile', authenticationMiddleware(), function(req, res) {
+app.get('/Profile', function(req, res) {
 	res.render('Profile', { title: "Profile", active: {Forum: false, News: false, Login: false, Register: false, Profile: true}, profileDescription: req.user._id});
+	console.log(req.user._id);
+	console.log(req.user.description);
 });
 
 app.post("/Login", passport.authenticate(
