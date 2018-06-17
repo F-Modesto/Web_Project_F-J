@@ -32,6 +32,26 @@
     {{/if}}
   </main>
 
+  {{# each contents }}
+
+  <br>
+  <br>
+  <main role="main">
+    <div class="container marketing">
+      <div class="row featurette">
+        <div class="col-md-7 order-md-2">
+          <h2 class="featurette-heading"> {{this.Title}} <span class="text-muted"> </span></h2>
+          <p class="lead"> {{ this.Content }}</p>
+        </div>
+        <div class="col-md-5">
+          <img class="img-fluid" class="featurette-image img-fluid mx-auto" src="pitrolio.png" alt="Generic placeholder image">
+        </div>
+      </div>
+      <hr class="featurette-divider">
+    </div>
+  </main>
+  {{/each}}
+
   <footer class="container">
     <button type="button" class="btn btn-danger; float-right" onclick="topFunction()">Back to top</button>
   </footer>

@@ -61,15 +61,22 @@ var userVolunteering = new mongoose.Schema({
 
 var post = new mongoose.Schema({
 	Title: String,
-	Content: String
-}, {
+	Content: String,
+	Date: {
+		type: Date,
+		default: Date.now()
+	}}, {
 	versionKey: false
 });
 
 var news = new mongoose.Schema({
 	Title: String,
-	Content: String
-}, {
+	Content: String,
+	Link: String,
+	Date: {
+		type: Date,
+		default: Date.now()
+	}}, {
 	versionKey: false
 });
 
@@ -95,13 +102,16 @@ app.get('/', function(req, res) {
 });
 
 app.get('/Forum', function(req, res) {
-	res.render('Forum', { title: "Forum", active: {Forum: true, News: false, Login: false, Register: false, Profile: false}});
+	postEntry.find({}).sort('-Date').exec(function(err, content) {
+		if (err) throw err;
+		res.render('Forum', { title: "Forum", active: {Forum: true, News: false, Login: false, Register: false, Profile: false}, contents: content});
+	});
 });
 
 app.get('/News', function(req, res) {
-	newsEntry.find(function(err, content) {
+	newsEntry.find({}).sort('-Date').exec(function(err, content) {
 		if (err) throw err;
-		res.render('News', { title: "News", active: {Forum: false, News: true, Login: false, Register: false, Profile: false} , contents: content});
+		res.render('News', { title: "News", active: {Forum: false, News: true, Login: false, Register: false, Profile: false}, contents: content});
 	});
 });
 
@@ -223,7 +233,7 @@ app.post("/addEntry", (req, res) => {
 });
 
 app.post("/createPost", (req, res) => {
-	var data = new postEntry(req.body);
+	var data = new postEntry({Title: req.body.Title, Content: req.body.Content});
 	data.save()
 	.then(item => {
 		console.log("Post saved to database");
@@ -235,7 +245,7 @@ app.post("/createPost", (req, res) => {
 });
 
 app.post("/createNews", (req, res) => {
-	var data = new newsEntry(req.body);
+	var data = new newsEntry({Title: req.body.Title, Content: req.body.Content, Link: req.body.Link});
 	data.save()
 	.then(item => {
 		console.log("News saved to database");
